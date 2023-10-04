@@ -26,7 +26,6 @@ public abstract class Venda {
     protected abstract void escolherToppings();
 
     private void escolherProduto() {
-        total = new Random().nextDouble()*10;
         System.out.println("Venda - Produto escolhido no valor: "+ total);
     }
 
@@ -50,5 +49,13 @@ public abstract class Venda {
         ConectorBD conectorBD = ConectorBD.getInstancia();
 
         conectorBD.registrarVenda();
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 }

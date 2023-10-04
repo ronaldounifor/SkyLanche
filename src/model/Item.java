@@ -23,5 +23,10 @@ public abstract class Item {
         this.descricao = descricao;
     }
 
+    @Override
+    public String toString() {
+        return id+": "+descricao+" (R$"+preco+")";
+    }
+
     public abstract void despensar();
 }
