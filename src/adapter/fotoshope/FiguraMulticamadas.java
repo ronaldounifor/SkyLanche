@@ -10,6 +10,10 @@ public class FiguraMulticamadas extends Figura {
         figuras = new ArrayList<>();
     }
 
+    public void adicionarCamada(FiguraCamadaUnica figura) {
+        figuras.add(figura);
+    }
+
     @Override
     public void calcularEspaco() {
         int total = 0;
