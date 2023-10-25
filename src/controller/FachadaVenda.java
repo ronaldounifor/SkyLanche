@@ -3,10 +3,11 @@ package controller;
 import java.util.List;
 
 import data.ConectorBD;
+import model.Usuario;
 import model.Venda;
-import model.VendaAluno;
 import observer.Funcionario;
 import observer.ItemEstoque;
+import strategy.Estrategia;
 
 public class FachadaVenda {
     private ConectorBD conector;
@@ -14,9 +15,11 @@ public class FachadaVenda {
     private Venda vendaAtual;
     private Funcionario reposicao;
 
-    public FachadaVenda() {
+    public FachadaVenda(Usuario usuario) {
         conector = ConectorBD.getInstancia();
         reposicao = new Funcionario(1, "Heitor");
+
+        vendaAtual = new Venda(usuario);
     }
 
     public void imprimirItens() {
@@ -29,12 +32,14 @@ public class FachadaVenda {
     public void selecionarItem(int escolha) {
         itemAtual = conector.pegarPorID(escolha);
         itemAtual.adicionarFuncionario(reposicao);
+
+        vendaAtual.adicionarItem(itemAtual.getItem());
     }
     
     public void pagar() {
-        vendaAtual = new VendaAluno();
-        vendaAtual.setTotal(itemAtual.getItem().getPreco());
+    //     vendaAtual.setTotal(itemAtual.getItem().getPreco());
         // vendaAtual.efetuar(); FIXME removendo prints do Fachada
+        vendaAtual.getUsuarioAtual().pontuar();
     }
     
     public void dispensar() {
@@ -57,19 +62,32 @@ public class FachadaVenda {
         this.itemAtual = itemAtual;
     }
 
-    public Venda getVendaAtual() {
-        return vendaAtual;
-    }
-
-    public void setVendaAtual(Venda vendaAtual) {
-        this.vendaAtual = vendaAtual;
-    }
-
     public Funcionario getReposicao() {
         return reposicao;
     }
 
     public void setReposicao(Funcionario reposicao) {
         this.reposicao = reposicao;
+    }
+
+    public double getTotal() {
+        return vendaAtual.getTotal();
+    }
+
+    public double getTotalComDesconto() {
+        return vendaAtual.getTotalComDesconto();
+    }
+
+    public Venda getVendaAtual() {
+        return vendaAtual;
+    }
+
+    public void adicionarEstrategia(Estrategia estrategia) {
+        estrategia.setVenda(vendaAtual);
+        vendaAtual.adicionarEstrategia(estrategia);
+    }
+
+    public void aplicarDesconto() {
+        vendaAtual.aplicarDesconto();
     }
 }

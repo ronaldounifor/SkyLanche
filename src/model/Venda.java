@@ -1,32 +1,36 @@
 package model;
-
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 import data.ConectorBD;
+import strategy.Estrategia;
 
-public abstract class Venda {
-
-    protected double total;
+public class Venda {
+    private List<Item> itens;
+    private Usuario usuarioAtual;
+    private List<Estrategia> estrategias;
+    private double valorFinal;
 
     public Venda() {
-        total = 0;
+        valorFinal = 0;
+    }
+
+    public Venda(Usuario usuario) {
+        valorFinal = 0;
+        usuarioAtual = usuario;
+        this.itens = new ArrayList<>();
+        this.estrategias = new ArrayList<>();
     }
 
     public void efetuar() {
         escolherProduto();
-        escolherToppings();
         escolherFormaPagamento();
-        aplicarDesconto();
         processarPagamento();
         dispensarProduto();
     }
 
-    protected abstract void aplicarDesconto();
-
-    protected abstract void escolherToppings();
-
     private void escolherProduto() {
-        System.out.println("Venda - Produto escolhido no valor: "+ total);
+        System.out.println("Venda - Produto escolhido no valor: "+ getTotal());
     }
 
     private void escolherFormaPagamento() {
@@ -34,7 +38,7 @@ public abstract class Venda {
     }
 
     private void processarPagamento() {
-        System.out.println("Venda - pagamento no valor: " + total);
+        System.out.println("Venda - pagamento no valor: " + getTotal());
     }
 
     private void dispensarProduto() {
@@ -52,10 +56,53 @@ public abstract class Venda {
     }
 
     public double getTotal() {
+        double total = 0;
+
+        for (Item item : itens) 
+            total += item.getPreco();
+
         return total;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
+    public double getTotalComDesconto() {
+        return getTotal() * usuarioAtual.getEstado().getDesconto();
+    }
+
+    public void aplicarDesconto() {
+        valorFinal = getTotal();
+        for (Estrategia estrategia : estrategias)
+            estrategia.aplicarDesconto();
+    }
+
+    public void adicionarEstrategia(Estrategia estrategia) {
+        estrategias.add(estrategia);
+    }
+
+    public Usuario getUsuarioAtual() {
+        return usuarioAtual;
+    }
+
+    public void setUsuarioAtual(Usuario usuarioAtual) {
+        this.usuarioAtual = usuarioAtual;
+    }
+
+    public List<Item> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<Item> itens) {
+        this.itens = itens;
+    }
+
+    public void adicionarItem(Item item) {
+        this.itens.add(item);
+    }
+
+    public double getValorFinal() {
+        return valorFinal;
+    }
+
+    public void setValorFinal(double valorFinal) {
+        this.valorFinal = valorFinal;
     }
 }
