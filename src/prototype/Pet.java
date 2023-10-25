@@ -1,22 +1,16 @@
 package prototype;
 
-public class Pet {
-    private int idade;
-    private String nome;
+public class Pet extends Personagem {
     private String apelido;
+
+    public Pet(){
+        
+    }
     
-    public int getIdade() {
-        return idade;
+    public Pet(int porte, String nome, String apelido, double altura, int fiosDeCabelo) {
+        super(porte, nome, altura, fiosDeCabelo);
     }
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    
     public String getApelido() {
         return apelido;
     }

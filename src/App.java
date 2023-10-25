@@ -1,45 +1,28 @@
-import java.util.Scanner;
-
-import controller.FachadaVenda;
-import model.Usuario;
-import strategy.BlackFriday;
-import strategy.FreteGratis;
-import strategy.PrimeiraCompra;
+import model.Bebida;
+import prototype.Personagem;
+import prototype.Pet;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        Usuario usuario = new Usuario(93, "Maitê");
+        Personagem maui = new Personagem(5, "Mauí", 1.8, 200000);
+        System.out.println("criei maui");
+        // Personagem maui2 = new Personagem(5, "Mauí", 1.8, 200000);
+        // System.out.println("criei maui 2");
+        // Personagem maui3 = new Personagem(5, "Mauí", 1.8, 200000);
+        // System.out.println("criei maui 3");
+        // Personagem maui4 = new Personagem(5, "Mauí", 1.8, 200000);
+        // System.out.println("criei maui 4");
+        // Personagem maui5 = new Personagem(5, "Mauí", 1.8, 200000);
+        // System.out.println("criei maui 5");
 
-        FachadaVenda fachada = new FachadaVenda(usuario);
-        fachada.adicionarEstrategia(new FreteGratis());
-        fachada.adicionarEstrategia(new PrimeiraCompra());
-        fachada.adicionarEstrategia(new BlackFriday());
-
-        Scanner scanner = new Scanner(System.in);
-
-        int escolha = -1;
-
-        fachada.imprimirItens();
-
-        System.out.println("Aguardando seleção");
-        escolha = scanner.nextInt();
-
-        while(escolha != 0) {
-            fachada.selecionarItem(escolha);
-            fachada.pagar();
-            fachada.dispensar();
-            System.out.println("Total: " + fachada.getTotal());
-
-            System.out.println();
-            fachada.imprimirItens();
-            System.out.println("Aguardando seleção");
-            escolha = scanner.nextInt();
-        }
-
-        fachada.aplicarDesconto();
-        System.out.println("Valor final: " + fachada.getVendaAtual().getValorFinal());
-
-        scanner.close();
+        Personagem maui2 = maui.clone();
+        System.out.println("criei maui 2");
+        Personagem maui3 = maui.clone();
+        System.out.println("criei maui 3");
+        Personagem maui4 = maui.clone();
+        System.out.println("criei maui 4");
+        Personagem maui5 = maui.clone();
+        System.out.println("criei maui 5");
     }
 
 }

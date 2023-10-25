@@ -1,14 +1,14 @@
 package prototype;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Personagem {
     private int porte;
     private String nome;
     private double altura;
-    private List<Pet> pets;
+    private ArrayList<Pet> pets;
     private int fiosDeCabelo;
     private transient String render;
 
@@ -21,6 +21,9 @@ public class Personagem {
         this.render = render();
     }
 
+    public Personagem() {
+    }
+
     public void adicionarPet(Pet pet) {
         pets.add(pet);
     }
@@ -30,7 +33,7 @@ public class Personagem {
         String resultado = "";
 
         try {
-            TimeUnit.SECONDS.sleep(3);
+            TimeUnit.SECONDS.sleep(new Random().nextInt(10));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -62,10 +65,10 @@ public class Personagem {
     public void setFiosDeCabelo(int fiosDeCabelo) {
         this.fiosDeCabelo = fiosDeCabelo;
     }
-    public List<Pet> getPets() {
+    public ArrayList<Pet> getPets() {
         return pets;
     }
-    public void setPets(List<Pet> pets) {
+    public void setPets(ArrayList<Pet> pets) {
         this.pets = pets;
     }
     public String getRender() {
@@ -75,6 +78,17 @@ public class Personagem {
         this.render = render;
     }
 
-    
+    public Personagem clone() {
+        Personagem clone = new Personagem();
+
+        clone.setAltura(altura);
+        clone.setFiosDeCabelo(fiosDeCabelo);
+        clone.setNome(nome);
+        clone.setPets((ArrayList<Pet>)pets.clone());
+        clone.setPorte(porte);
+        clone.setRender(render);
+
+        return clone;
+    }
     
 }
